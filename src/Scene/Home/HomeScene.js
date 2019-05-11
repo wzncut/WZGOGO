@@ -34,9 +34,38 @@ constructor(Props){
     serverFlag: true,
     ShowModal1:false,
     x:0,
-    y:0
+    y:0,
+    shows:'none',
+    showf:'none',
   }
 }
+
+_shows = () => {
+  if(this.state.shows=='none'){
+  this.setState({
+    shows:'flex'
+  })
+}
+else{
+  this.setState({
+    shows:'none'
+  })
+}
+}
+
+_showf = () => {
+  if(this.state.showf=='none'){
+  this.setState({
+    showf:'flex'
+  })
+}
+else{
+  this.setState({
+    showf:'none'
+  })
+}
+}
+
 
 handleClick = () => {
 	UIManager.measure(findNodeHandle(this.buttonRef),(x,y,width,height,pageX,pageY)=>{
@@ -50,6 +79,7 @@ handleClick = () => {
   }
  })
 }
+
 _onShow(evt){
   console.log("---------pagex",evt.nativeEvent.pageX)
   console.log("---------pagex",evt.nativeEvent.pageY)
@@ -75,11 +105,10 @@ SendUDP = (port, ip, mess) => {
             let socket = dgram.createSocket('udp4')
             socket.bind(parseInt('8889'))
             socket.once('listening', () => {
-                const buf = this.toByteArray(mess)
-                console.log('message was sent12')   
+                const buf = this.toByteArray(mess) 
                 socket.send(buf, 0, buf.length, parseInt(port), `${ip}`, (err) => {
                     if (err) throw err
-                    console.log('message was sent11') 
+                    console.log('message was sent') 
                     socket.on('message', function(msg, rinfo) {
                       console.log('receiving') 
                       var str= String.fromCharCode.apply(null, new Uint8Array(msg))
@@ -90,8 +119,8 @@ SendUDP = (port, ip, mess) => {
                 })
                     // socket.close()
                 })
-            
-            
+
+
             })
           
 // console.log(this.state.ip + this.state.mess + this.state.port)
@@ -103,75 +132,47 @@ SendUDP = (port, ip, mess) => {
   render() {
     return (
       <View style={styles.container}>
-          <View style={styles.TopBar}>
-            <Text  style={{flex:1,fontSize:20 ,color:'black' ,textAlign:'center'}}>设备信息</Text>
-            <AntDesign 
+           <View style={styles.TopBar}>
+              <Text  style={{flex:1,fontSize:20 ,color:'black' ,textAlign:'center'}}>设备信息</Text>
+              <AntDesign 
               name={'search1'}
               size={16}
               color={'#999'}
-            />
-          </View>
-          <View style={styles.MainBar}>
-            <ScrollView>
-
-              <View>
-                <TouchableOpacity style={styles.scrollItems} onPress={() =>this.SendUDP('4567', '192.168.1.110','0D wm 123456 searchall')} >
-                  <Text style={styles.Text}>主卧</Text>
-                </TouchableOpacity >
+              />
               </View>
-
-
-              <View style={{height:1,color:'black'}}></View>
-
-              <View>
-              <TouchableOpacity  ref={(ref)=>this.buttonRef=ref} style={styles.scrollItems}  onPress={()=>{this.handleClick()}}>
-              <Text style={styles.Text}>次卧</Text>
-
-              </TouchableOpacity>
-              </View>
-
-              <View>
-              <Modal 
-                visible={this.state.ShowModal1}
-                transparent={true}
-                animationType='fade'
-                onRequestClose={() => {}}
-                // style={{flex:1}}
-                // ref="modal1"
-              >
-              <TouchableWithoutFeedback 
-                onPress={()=>{this.setState({ShowModal1:false})}}>
-                <View style={{position:'absolute',top:this.state.y,backgroundColor:theme.lightGray,height:100}} >
-                  <TouchableWithoutFeedback onPress={()=>{}}>
-                    <View style={{backgroundColor:'#fff',width:width,justifyContent:'center'}}>
-                    <View>
-              <TouchableOpacity  ref={(ref)=>this.buttonRef=ref} style={styles.scrollItems}  onPress={()=>{this.setState({ShowModal1:false})}}>
-              <Text style={styles.Text}>次卧</Text>
-
-              </TouchableOpacity>
-              </View>
-                      <View>
-                        <Text>次卧</Text>
-                      </View>
-                    </View>
-                  </TouchableWithoutFeedback >
+            <View style={styles.MainBar}>
+              <ScrollView>
+                <View>
+                  <TouchableOpacity style={styles.scrollItems} onPress={() =>this.SendUDP('4567', '192.168.1.110','0D wm 123456 searchall')} >
+                   <Text style={styles.Text}>主卧</Text>
+                  </TouchableOpacity >
                 </View>
-                </TouchableWithoutFeedback>
-              </Modal>
-              </View>
 
+                <View style={{height:1,color:'black'}}></View>
 
+                <View>
+                  <TouchableOpacity  ref={(ref)=>this.buttonRef=ref} style={styles.scrollItems}  onPress={()=>{this._showf()}}>
+                    <Text style={styles.Text}>次卧</Text>
+                  </TouchableOpacity>
+                </View>
 
-              <View style={{height:1,color:'black'}}></View>
+                <View display={this.state.showf}>
+                  <Text>1111</Text>
+                </View>
 
-              <View>
-              <TouchableOpacity style={styles.scrollItems}>
-              <Text style={styles.Text}>阳台</Text>
-              </TouchableOpacity>
-              </View>
+                <View style={{height:1,color:'black'}}></View>
 
-            </ScrollView>
-        </View>
+                <View>
+                  <TouchableOpacity style={styles.scrollItems} onPress={()=>{this._shows()}}>
+                    <Text style={styles.Text}>阳台</Text>
+                  </TouchableOpacity>
+                </View>
+
+                <View display={this.state.shows}>
+                  <Text>121</Text>
+                </View>
+              </ScrollView>
+            </View>
       </View>
     );
   }
