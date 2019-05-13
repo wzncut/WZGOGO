@@ -12,8 +12,10 @@ import theme from '../../widget/theme'
 import SimpleLineIcon from 'react-native-vector-icons/SimpleLineIcons'
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import dgram from 'react-native-udp'
+import SQLite from '../../db/SQLite';
 
-
+var sqLite = new SQLite();
+var db;
 var Dimensions = require('Dimensions');
 const { width, height } = Dimensions.get('window');
 type Props = {};
@@ -38,6 +40,49 @@ export default class HomeScene extends Component<Props> {
       shows: 'none',
       showf: 'none',
     }
+  }
+
+  compennetDidUnmount() {
+    sqLite.close();
+  }
+
+  componentWillMount() {
+    //开启数据库
+    if (!db) {
+      db = sqLite.open();
+    }
+    //建表
+    sqLite.createTable();
+    //删除数据
+    sqLite.deleteData();
+    //模拟一条数据
+    var tipData = [];
+    var tip = {};
+    tip.name = "薰衣草";
+    tip.class_name = "花卉";
+    tip.measure = "5.5";
+    tip.place = "6号温室花房";
+    tip.start = "2017-6-27";
+    tip.end = "2017-9-30";
+    tip.days = "1314";
+    tipData.push(tip);
+    tipData.push(tip);
+    tipData.push(tip);
+    //插入数据
+    sqLite.insertUserData(tipData);
+    //查询
+    db.transaction((tx) => {
+      tx.executeSql("select * from TIP", [], (tx, results) => {
+        var len = results.rows.length;
+        for (let i = 0; i < len; i++) {
+          var u = results.rows.item(i);
+          //一般在数据查出来之后，  可能要 setState操作，重新渲染页面
+          alert("作物名称：" + u.name + ",作物种类：" + u.class + "开始培育时间：" + u.start);
+        }
+      });
+    }, (error) => {//打印异常信息
+      console.log(error);
+    });
   }
 
   _shows = () => {
