@@ -15,6 +15,8 @@ import org.pgsqlite.SQLitePluginPackage;
 import java.util.Arrays;
 import java.util.List;
 
+import pl.com.salsoft.sqlitestudioremote.SQLiteStudioService;
+
 public class MainApplication extends Application implements ReactApplication {
 
   private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
@@ -48,6 +50,7 @@ public class MainApplication extends Application implements ReactApplication {
   @Override
   public void onCreate() {
     super.onCreate();
+    SQLiteStudioService.instance().start(this);
     SoLoader.init(this, /* native exopackage */ false);
   }
 }

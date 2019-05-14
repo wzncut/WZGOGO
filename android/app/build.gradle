@@ -141,10 +141,12 @@ dependencies {
     implementation project(':react-native-udp')
     implementation project(':react-native-vector-icons')
     implementation project(':react-native-gesture-handler')
-    implementation fileTree(dir: "libs", include: ["*.jar"])
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation "com.android.support:appcompat-v7:${rootProject.ext.supportLibVersion}"
-    implementation "com.facebook.react:react-native:+"  // From node_modules
+    implementation 'com.facebook.react:react-native:+'
+    // From node_modules
     implementation project(':react-native-sqlite-storage')
+    implementation files('libs/SQLiteStudioRemote.jar')
 }
 
 // Run this once to be able to run the application with BUCK
