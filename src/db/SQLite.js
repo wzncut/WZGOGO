@@ -58,11 +58,19 @@ export default class SQLite extends Component {
             this._successCB('transaction');
         })
 
-        //插入数据
+        //创建日志表
         db.transaction((tx) => {
-            tx.executeSql("INSERT INTO  deviceinfo(mac,NAME,POSITION,TYPE,protype) VALUES('devicemac001','廊灯','走廊','开关','wifi')");
-            tx.executeSql("INSERT INTO deviceinfo(mac,NAME,POSITION,TYPE,protype) VALUES('devicemac002','客厅吊灯','客厅','开关','wifi')");
-            tx.executeSql("INSERT INTO deviceinfo(mac,NAME,POSITION,TYPE,protype) VALUES('devicemac003','主卧背景灯','主卧','开关','wifi')");
+            tx.executeSql("CREATE TABLE homelog(" +
+                "id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                "operate VARCHAR(20) NOT NULL," +
+                "tablename VARCHAR(20) NOT NULL," +
+                "tablekey VARCHAR(20) NOT NULL," +
+                "syn VARCHAR(20) NOT NULL DEFAULT 'false')"
+                , [], () => {
+                    this._successCB('executeSql');
+                }, (err) => {
+                    this._errorCB('executeSql', err);
+                });
         }, (err) => {//所有的 transaction都应该有错误的回调方法，在方法里面打印异常信息，不然你可能不会知道哪里出错了。
             this._errorCB('transaction', err);
         }, () => {
@@ -82,6 +90,18 @@ export default class SQLite extends Component {
         }, () => {
             this._successCB('transaction');
         })
+
+        //插入数据
+        db.transaction((tx) => {
+            tx.executeSql("INSERT INTO  deviceinfo(mac,NAME,POSITION,TYPE,protype) VALUES('devicemac001','廊灯','走廊','开关','wifi')");
+            tx.executeSql("INSERT INTO deviceinfo(mac,NAME,POSITION,TYPE,protype) VALUES('devicemac002','客厅吊灯','客厅','开关','wifi')");
+            tx.executeSql("INSERT INTO deviceinfo(mac,NAME,POSITION,TYPE,protype) VALUES('devicemac003','主卧背景灯','主卧','开关','wifi')");
+        }, (err) => {//所有的 transaction都应该有错误的回调方法，在方法里面打印异常信息，不然你可能不会知道哪里出错了。
+            this._errorCB('transaction', err);
+        }, () => {
+            this._successCB('transaction');
+        })
+
     }
 
     deleteData() {
