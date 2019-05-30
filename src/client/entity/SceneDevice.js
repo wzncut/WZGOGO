@@ -16,7 +16,7 @@ export default class SceneDevice{
 	getTablekey() {
 		return tablekey;
 	}
-setTablekey(tablekey:string ) {
+	setTablekey(tablekey:string ) {
 		this.tablekey = tablekey;
 	}
 	getScenenum() {

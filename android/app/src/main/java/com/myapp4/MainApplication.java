@@ -11,9 +11,13 @@ import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
 import com.facebook.soloader.SoLoader;
+import org.pgsqlite.SQLitePluginPackage;
+
 
 import java.util.Arrays;
 import java.util.List;
+
+import pl.com.salsoft.sqlitestudioremote.SQLiteStudioService;
 
 public class MainApplication extends Application implements ReactApplication {
 
@@ -27,10 +31,11 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
-            new UdpSocketsModule(),
-            new VectorIconsPackage(),
-            new RNGestureHandlerPackage(),
-            new TcpSocketsModule()
+           new SQLitePluginPackage(), 
+           new UdpSocketsModule(),
+           new VectorIconsPackage(),
+           new RNGestureHandlerPackage(),
+           new TcpSocketsModule()
       );
     }
 
@@ -49,5 +54,6 @@ public class MainApplication extends Application implements ReactApplication {
   public void onCreate() {
     super.onCreate();
     SoLoader.init(this, /* native exopackage */ false);
+    SQLiteStudioService.instance().start(this);
   }
 }

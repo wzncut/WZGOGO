@@ -9,10 +9,14 @@ import DataRequest from '../../client/entity/DataRequest'
 import DataResponse from '../../client/entity/DataResponse'
 import net from 'react-native-tcp'
 import SetDataRequest from '../until/SetDataRequest'
-const END_CONNECTION='EndConnection'
-const END_MARK='end'
-const SLEEP_TIME=1000*60
+import properties from '../../properties'
+// const END_CONNECTION='EndConnection'
+// const END_MARK='end'
+// const SLEEP_TIME=1000*60
 export default class clientmain{
+  static END_CONNECTION='EndConnection'
+  static END_MARK='end'
+  // static SLEEP_TIME=1000*60
   main(){
     let serverPort=20186
     let responseKeyword='';
@@ -26,10 +30,9 @@ export default class clientmain{
             let client=net.createConnection({host:'loacalhost',port:serverPort});
             console.log("====1.创建socket====");
             request=SetDataRequest.setStartRequest();
-            request.setGatewayMac(gatewayMac);
+            request.setGatewayMac(properties.gatewayMac);
             client.write(request.toString());
-            client.write(END_MARK);
-            client.newLine();
+            client.write(clientmain.END_MARK+"\n");
             //发送报文
             console.log("-----[发送报文]-----");
             console.log(request.toString());
@@ -40,19 +43,18 @@ export default class clientmain{
 
               console.log("-----[接收报文]-----");
               responseKeyword = response.getKeyword();
-                if(responseKeyword==null || END_CONNECTION.equalsIgnoreCase(responseKeyword.trim())){
+                if(responseKeyword==null || clientmain.END_CONNECTION.equalsIgnoreCase(responseKeyword.trim())){
                       break;
                   }
                 else{
                     // 根据响应设置回复报文
                   request = SetDataRequest.setDataResponse(response);
-                  request.setGatewayMac(gatewayMac);
+                  request.setGatewayMac(properties.gatewayMac);
                   client.write(request.toString());
-                  client.write(END_MARK);
-                  client.newLine();
-                  System.out.println("-----[发送报文]-----");
-                  System.out.print(request.toString());
-                  System.out.println("------------------");
+                  client.write(clientmain.END_MARK+"\n");
+                  console.log("-----[发送报文]-----");
+                  console.log(request.toString());
+                  console.log("------------------");
                   }
             }//end while
            }
@@ -83,7 +85,7 @@ export default class clientmain{
               }
               continue;
             }
-            else if( END_MARK.equalsIgnoreCase(readLine)){
+            else if( clientmain.END_MARK.equalsIgnoreCase(readLine)){
               break;
             }
             else{

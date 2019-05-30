@@ -14,7 +14,10 @@ import AntDesign from 'react-native-vector-icons/AntDesign'
 import dgram from 'react-native-udp'
 import DataRequest from '../../client/entity/DataRequest'
 import net from 'react-native-tcp'
+import SQLite from '../../db/SQLite'
 
+var sqLite = new SQLite();
+var db;
 var Dimensions = require('Dimensions');
 const {width,height} = Dimensions.get('window');
 type Props = {};
@@ -39,6 +42,33 @@ export default class HomeScene extends Component<Props> {
     shows:'none',
     showf:'none',
     }
+  }
+
+  compennetDidUnmount() {
+    sqLite.close();
+  }
+
+  componentWillMount() {
+    //开启数据库
+    if (!db) {
+      db = sqLite.open();
+    }
+
+    //查询设备信息
+    db.transaction((tx) => {
+      tx.executeSql("select * from deviceinfo", [], (tx, results) => {
+        var len = results.rows.length;
+        for (let i = 0; i < len; i++) {
+          var u = results.rows.item(i);
+          //一般在数据查出来之后，  可能要 setState操作，重新渲染页面
+          // console.log('--------------------------');
+          // console.log(JSON.stringify(u));
+          alert(u.mac + u.NAME + u.POSITION + u.TYPE + u.protype);
+        }
+      });
+    }, (error) => {//打印异常信息
+      console.log(error);
+    });
   }
 
   _shows = () => {

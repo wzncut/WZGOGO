@@ -15,8 +15,21 @@ import OtherScene from './Scene/Other/OtherScene'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
+import SQLite from '../src/db/SQLite'
 
+
+var sqLite = new SQLite();
+var db;
 export default class RootScene extends Component<Props> {
+
+  componentWillMount() {
+    //开启数据库
+    if (!db) {
+      db = sqLite.open();
+    }
+    //建表
+    sqLite.createTable();
+  }
 
   render() {
     return (
