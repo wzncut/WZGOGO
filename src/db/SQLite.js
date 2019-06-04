@@ -257,7 +257,18 @@ export default class SQLite extends Component {
         // }, () => {
         //     this._successCB('transaction');
         // })
+        //插入数据
+    }
 
+    //查询对应数据库中日志表中未同步的操作
+    selectLogTable(){
+        db.transaction((tx) => {
+                tx.executeSql("select * from homelog where syn='false'");
+            }, (err) => {//所有的 transaction都应该有错误的回调方法，在方法里面打印异常信息，不然你可能不会知道哪里出错了。
+                this._errorCB('transaction', err);
+            }, () => {
+                this._successCB('transaction');
+            })
     }
 
     deleteData() {

@@ -14,15 +14,15 @@ export default class DeviceInfo{
 	protype:string ;
 
 	getName() {
-		return name;
+		return this.name;
 	}
 
-	etName(name:string ) {
+	setName(name:string ) {
 		this.name = name;
 	}
 
 	getMac() {
-		return mac;
+		return this.mac;
 	}
 
     setMac(mac:string) {
@@ -30,7 +30,7 @@ export default class DeviceInfo{
 	}
 
 	getPosition() {
-		return position;
+		return this.position;
 	}
 
 	setPosition(position:string ) {
@@ -38,15 +38,15 @@ export default class DeviceInfo{
 	}
 
 	getType() {
-		return type;
+		return this.type;
 	}
 
-	etType(type:string ) {
+	setType(type:string ) {
 		this.type = type;
 	}
 
 	getProtype() {
-		return protype;
+		return this.protype;
 	}
 
 	setProtype(protype:string) {

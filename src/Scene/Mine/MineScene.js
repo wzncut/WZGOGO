@@ -12,9 +12,10 @@ import theme from '../../widget/theme'
 // import { TouchableOpacity } from 'react-native-gesture-handler';
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import SimpleLineIcon from 'react-native-vector-icons/SimpleLineIcons'
-
+import clientmain from '../../client/Main/clientmain'
 type Props = {};
 export default class MineScene extends Component<Props> {
+  
   render() {
     return (
       <View style={styles.container}>
@@ -67,6 +68,17 @@ export default class MineScene extends Component<Props> {
          <View>
          <TouchableOpacity style={styles.scrollItems}>
             <Text style={styles.Text}>退出登录</Text>
+            <SimpleLineIcon
+              name={'arrow-right'}
+              size={16}
+              color={'#999'}
+            />
+         </TouchableOpacity>
+         </View>
+         <View style={{height:1,color:'black'}}></View>
+         <View>
+         <TouchableOpacity style={styles.scrollItems} onPress={() =>{clientmain.main()}}>
+            <Text style={styles.Text}>同步数据</Text>
             <SimpleLineIcon
               name={'arrow-right'}
               size={16}

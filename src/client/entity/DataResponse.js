@@ -15,7 +15,7 @@ export default class DataResponse{
 		
 	//------------------ gets 和 sets 函数 ---------------------
     getKeyword() {
-		return keyword;
+		return this.keyword;
 	}
 	setKeyword(keyword:string ) {
 		this.keyword = keyword;

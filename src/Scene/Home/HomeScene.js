@@ -15,6 +15,7 @@ import dgram from 'react-native-udp'
 import DataRequest from '../../client/entity/DataRequest'
 import net from 'react-native-tcp'
 import SQLite from '../../db/SQLite'
+import HomeLog from '../../client/entity/HomeLog'
 
 var sqLite = new SQLite();
 var db;
@@ -55,20 +56,20 @@ export default class HomeScene extends Component<Props> {
     }
 
     //查询设备信息
-    db.transaction((tx) => {
-      tx.executeSql("select * from deviceinfo", [], (tx, results) => {
-        var len = results.rows.length;
-        for (let i = 0; i < len; i++) {
-          var u = results.rows.item(i);
-          //一般在数据查出来之后，  可能要 setState操作，重新渲染页面
-          // console.log('--------------------------');
-          // console.log(JSON.stringify(u));
-          alert(u.mac + u.NAME + u.POSITION + u.TYPE + u.protype);
-        }
-      });
-    }, (error) => {//打印异常信息
-      console.log(error);
-    });
+    // db.transaction((tx) => {
+    //   tx.executeSql("select * from deviceinfo", [], (tx, results) => {
+    //     var len = results.rows.length;
+    //     for (let i = 0; i < len; i++) {
+    //       var u = results.rows.item(i);
+    //       //一般在数据查出来之后，  可能要 setState操作，重新渲染页面
+    //       // console.log('--------------------------');
+    //       // console.log(JSON.stringify(u));
+    //       alert(u.mac + u.NAME + u.POSITION + u.TYPE + u.protype);
+    //     }
+    //   });
+    // }, (error) => {//打印异常信息
+    //   console.log(error);
+    // });
   }
 
   _shows = () => {
@@ -132,25 +133,33 @@ toByteArray = (obj) => {
 }
 
 SendTCPf =(port,ip) => {
-  let client=net.createConnection({host:ip,port:parseInt(port)},()=>{
+    let client=net.createConnection({host:ip,port:parseInt(port)})
     console.log("--------create connection succeed!");
     // const buf = this.toByteArray('mess') 
     client.write('okk \n');
     console.log("send");
 
-    client.on('error', function(error) {
-      console.log(">>>>>>>>>error:" + error);
-  });
+  //   client.on('error', function(error) {
+  //     console.log(">>>>>>>>>error:" + error);
+  // });
 
-    client.on('data', function(data) {
+    client.on('data', function(data) {  
       console.log('message was received', data)
-  });
-
-
-  });
+      // lineArray=data.split(" ");
+        // alert(typeof(lineArray))
+        // alert(data==='hello');
+        let str = data.toString().split("\n");
+        for(let a of str){
+          console.log(a)}
+        });
+        console.log(1111111111111111111)
 }
 
-
+testtouch=()=>{
+  let a='A B C'
+  let b=a.split(" ")
+  console.log(b[0].toLocaleLowerCase())
+}
 
 SendTCPs =() => {
   var socket = new WebSocket('ws://192.168.1.114:8888');
@@ -158,7 +167,6 @@ SendTCPs =() => {
     socket.send('buf \n');
 });
 }
-
 
 SendUDP = (port, ip, mess) => {
             let socket = dgram.createSocket('udp4')
@@ -202,6 +210,7 @@ SendUDP = (port, ip, mess) => {
             <View style={styles.MainBar}>
               <ScrollView>
                 <View>
+                {/* SendTCPf('8888','192.168.1.114') */}
                   <TouchableOpacity style={styles.scrollItems} onPress={() =>this.SendTCPf('8888','192.168.1.114')} >
                    <Text style={styles.Text}>主卧</Text>
                   </TouchableOpacity >
@@ -210,7 +219,7 @@ SendUDP = (port, ip, mess) => {
                 <View style={{height:1,color:'black'}}></View>
 
                 <View>
-                  <TouchableOpacity  ref={(ref)=>this.buttonRef=ref} style={styles.scrollItems}  onPress={()=>{this._showf()}}>
+                  <TouchableOpacity  ref={(ref)=>this.buttonRef=ref} style={styles.scrollItems}  onPress={()=>{this._showf}}>
                     <Text style={styles.Text}>次卧</Text>
                   </TouchableOpacity>
                 </View>

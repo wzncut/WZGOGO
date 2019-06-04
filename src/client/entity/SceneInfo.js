@@ -1,5 +1,3 @@
-import console = require("console");
-
 /**
  * Sample React Native App
  * https://github.com/facebook/react-native
@@ -13,13 +11,13 @@ export default class SceneDevice{
 	name:string ;
 	
 	getNumber() {
-		return number;
+		return this.number;
 	}
 	setNumber(number:string ) {
 		this.number = number;
 	}
 	getName() {
-		return name;
+		return this.name;
 	}
 	setName(name:string ) {
 		this.name = name;
@@ -27,7 +25,7 @@ export default class SceneDevice{
 	
 	// 重载tostring()函数
 
-	tostring() {
+	toString() {
 		let sceneStr="";
 		sceneStr += this.getNumber()+" ";
 		sceneStr += this.getName();

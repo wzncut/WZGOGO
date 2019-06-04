@@ -14,32 +14,32 @@ export default class SceneDevice{
 	
 	
 	getTablekey() {
-		return tablekey;
+		return this.tablekey;
 	}
 	setTablekey(tablekey:string ) {
 		this.tablekey = tablekey;
 	}
 	getScenenum() {
-		return scenenum;
+		return this.scenenum;
 	}
 	setScenenum(scenenum:string ) {
 		this.scenenum = scenenum;
 	}
 	getDevicemac() {
-		return devicemac;
+		return this.devicemac;
 	}
 	setDevicemac(devicemac:string ) {
 		this.devicemac = devicemac;
 	}
 	getDevicestate() {
-		return devicestate;
+		return this.devicestate;
 	}
 	setDevicestate(devicestate:string ) {
 		this.devicestate = devicestate;
 	}
 	
 	// 重载tostring()函数
-	tostring() {
+	toString() {
 		let sceneDeviceStr="";
 		sceneDeviceStr += this.getTablekey()+" ";
 		sceneDeviceStr += this.getScenenum()+" ";

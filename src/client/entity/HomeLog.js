@@ -7,25 +7,23 @@
  */
 
 export default class HomeLog{
-    operate:string ;
-	tablename:string ;
-	tablekey:string ;
-	syn:string ;
+    operate:string 
+	tablename:string 
+	tablekey:string 
+	syn:string 
 	
-	HomeLog() {
-		super();
-	}
+
 
 	getOperate() {
-		return operate;
+		return this.operate;
 	}
 
-	setoperate(operate:string) {
+	setOperate(operate:string) {
 		this.operate = operate;
 	}
 
 	getTablename() {
-		return tablename;
+		return this.tablename;
 	}
 
 	setTablename(tablename:string) {
@@ -33,7 +31,7 @@ export default class HomeLog{
 	}
 
 	getTablekey() {
-		return tablekey;
+		return this.tablekey;
 	}
 
 	setTablekey(tablekey:string ) {
@@ -41,14 +39,14 @@ export default class HomeLog{
 	}
 
 	getSyn() {
-		return syn;
+		return this.syn;
 	}
 
 	setSynsyn(syn:string) {
 		this.syn = syn;
 	}
 
-    tostring(){
+    toString(){
 		return this.getOperate()+" "+this.getTablename()+" "+this.getTablekey()+" "+this.getSyn();
 	}
 }

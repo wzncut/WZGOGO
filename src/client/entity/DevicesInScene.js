@@ -18,49 +18,49 @@ export default class DevicesScene{
 	  deviceState:string ;
 
 	getDeviceName() {
-		return deviceName;
+		return this. deviceName;
 	}
 	setDeviceName(deviceName:string) {
 		this.deviceName = deviceName;
 	}
 	getDeviceMac() {
-		return deviceMac;
+		return this.deviceMac;
 	}
 	setDeviceMac(deviceMac:string) {
 		this.deviceMac = deviceMac;
 	}
 	getDevicePosition() {
-		return devicePosition;
+		return this.devicePosition;
 	}
 	setDevicePosition(devicePosition:string) {
 		this.devicePosition = devicePosition;
 	}
 	getDeviceType() {
-		return deviceType;
+		return this.deviceType;
 	}
 	setDeviceType( deviceType:string) {
 		this.deviceType = deviceType;
 	}
 	getDeviceProtype() {
-		return deviceProtype;
+		return this.deviceProtype;
 	}
 	setDeviceProtype(deviceProtype:string ) {
 		this.deviceProtype = deviceProtype;
 	}
 	getSceneName() {
-		return sceneName;
+		return this.sceneName;
 	}
 	setSceneName(sceneName:string ) {
 		this.sceneName = sceneName;
 	}
 	getSceneNumber() {
-		return sceneNumber;
+		return this.sceneNumber;
 	}
 	setSceneNumber(sceneNumber:string ) {
 		this.sceneNumber = sceneNumber;
 	}
 	getDeviceState() {
-		return deviceState;
+		return this.deviceState;
 	}
 	setDeviceState(deviceState:string ) {
 		this.deviceState = deviceState;
