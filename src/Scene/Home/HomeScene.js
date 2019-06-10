@@ -160,39 +160,96 @@ testtouch=()=>{
   let b=a.split(" ")
   console.log(b[0].toLocaleLowerCase())
 }
-
-SendTCPs =() => {
-  var socket = new WebSocket('ws://192.168.1.114:8888');
-  socket.addEventListener('open', function (event) {
-    socket.send('buf \n');
-});
-}
-
-SendUDP = (port, ip, mess) => {
+//控制黄灯开
+SendUDPYo = (port, ip, mess) => {
             let socket = dgram.createSocket('udp4')
             socket.bind(parseInt('8889'))
-            socket.once('listening', () => {
+            // socket.once('listening', () => {
                 const buf = this.toByteArray(mess) 
-                socket.send(buf, 0, buf.length, parseInt(port), `${ip}`, (err) => {
-                    if (err) throw err
-                    console.log('message was sent') 
-                    socket.on('message', function(msg, rinfo) {
-                      console.log('receiving') 
-                      var str= String.fromCharCode.apply(null, new Uint8Array(msg))
-                      console.log('message was received', str)
-                  //     this.setState({
-                  //     msg:msg
-                  // })
+                socket.send(buf, 0, buf.length, parseInt(port), `${ip}`, () => {
+                    // if (err) throw err
+                    // console.log('message was sent') 
+                //     socket.on('message', function(msg, rinfo) {
+                //       console.log('receiving') 
+                //       var str= String.fromCharCode.apply(null, new Uint8Array(msg))
+                //       console.log('message was received', str)
+                //   //     this.setState({
+                //   //     msg:msg
+                //   // })
+                // })
+                     socket.close()
                 })
-                    //  socket.close()
-                })
-            })
+            // })
 // console.log(this.state.ip + this.state.mess + this.state.port)
   }
+//控制黄灯关
+  SendUDPYc = (port, ip, mess) => {
+    let socket = dgram.createSocket('udp4')
+    socket.bind(parseInt('8889'))
+    // socket.once('listening', () => {
+        const buf = this.toByteArray(mess) 
+        socket.send(buf, 0, buf.length, parseInt(port), `${ip}`, () => {
+            // if (err) throw err
+            // console.log('message was sent') 
+            // socket.on('message', function(msg, rinfo) {
+            //   console.log('receiving') 
+            //   var str= String.fromCharCode.apply(null, new Uint8Array(msg))
+            //   console.log('message was received', str)
+          //     this.setState({
+          //     msg:msg
+          // })
+        // })
+             socket.close()
+        })
+    // })
+// console.log(this.state.ip + this.state.mess + this.state.port)
+}
 
-  
+//控制红灯开
+SendUDPRo = (port, ip, mess) => {
+  let socket = dgram.createSocket('udp4')
+  socket.bind(parseInt('8889'))
+  socket.once('listening', () => {
+      const buf = this.toByteArray(mess) 
+      socket.send(buf, 0, buf.length, parseInt(port), `${ip}`, (err) => {
+          if (err) throw err
+          console.log('message was sent') 
+          // socket.on('message', function(msg, rinfo) {
+          //   console.log('receiving') 
+          //   var str= String.fromCharCode.apply(null, new Uint8Array(msg))
+          //   console.log('message was received', str)
+        //     this.setState({
+        //     msg:msg
+        // })
+      // })
+          //  socket.close()
+      })
+  })
+// console.log(this.state.ip + this.state.mess + this.state.port)
+}
 
-
+//控制红灯关
+SendUDPRc = (port, ip, mess) => {
+  let socket = dgram.createSocket('udp4')
+  socket.bind(parseInt('8889'))
+  socket.once('listening', () => {
+      const buf = this.toByteArray(mess) 
+      socket.send(buf, 0, buf.length, parseInt(port), `${ip}`, (err) => {
+          if (err) throw err
+          console.log('message was sent') 
+          // socket.on('message', function(msg, rinfo) {
+          //   console.log('receiving') 
+          //   var str= String.fromCharCode.apply(null, new Uint8Array(msg))
+          //   console.log('message was received', str)
+        //     this.setState({
+        //     msg:msg
+        // })
+      // })
+          //  socket.close()
+      })
+  })
+// console.log(this.state.ip + this.state.mess + this.state.port)
+}
 
   render() {
     let DataRequest1=new DataRequest();
@@ -209,23 +266,28 @@ SendUDP = (port, ip, mess) => {
               </View>
             <View style={styles.MainBar}>
               <ScrollView>
-                <View>
-                {/* SendTCPf('8888','192.168.1.114') */}
+                {/* <View>
                   <TouchableOpacity style={styles.scrollItems} onPress={() =>this.SendTCPf('8888','192.168.1.114')} >
                    <Text style={styles.Text}>主卧</Text>
                   </TouchableOpacity >
                 </View>
 
-                <View style={{height:1,color:'black'}}></View>
+                <View style={{height:1,color:'black'}}></View> */}
 
                 <View>
-                  <TouchableOpacity  ref={(ref)=>this.buttonRef=ref} style={styles.scrollItems}  onPress={()=>{this._showf}}>
+                  <TouchableOpacity  ref={(ref)=>this.buttonRef=ref} style={styles.scrollItems}  onPress={()=>{this._showf()}}>
                     <Text style={styles.Text}>次卧</Text>
                   </TouchableOpacity>
                 </View>
 
-                <View display={this.state.showf}>
-                  <Text>{DataRequest1.keyword}</Text>
+                <View display={this.state.showf} style={styles.light}>
+                  <Text>红灯</Text>
+                  <TouchableOpacity onPress={()=>{this.SendUDPYo('4567','192.168.1.111','0A wm 123456 18-fe-34-a4-8c-b7 1')}}>
+                    <Text style={styles.Text}>开</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity onPress={()=>{this.SendUDPYo('4567','192.168.1.111','0A wm 123456 18-fe-34-a4-8c-b7 0')}}>
+                    <Text style={styles.Text}>关</Text>
+                  </TouchableOpacity>
                 </View>
 
                 <View style={{height:1,color:'black'}}></View>
@@ -236,8 +298,14 @@ SendUDP = (port, ip, mess) => {
                   </TouchableOpacity>
                 </View>
 
-                <View display={this.state.shows}>
-                  <Text>121</Text>
+                <View display={this.state.shows} style={styles.light}>
+                    <Text>黄灯</Text>
+                    <TouchableOpacity onPress={()=>{this.SendUDPYo('4567','192.168.1.111','0A wm 123456 18-fe-34-a4-8c-2d 1')}}>
+                    <Text style={styles.Text}>开</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity onPress={()=>{this.SendUDPYc('4567','192.168.1.111','0A wm 123456 18-fe-34-a4-8c-2d 0')}}>
+                    <Text style={styles.Text}>关</Text>
+                  </TouchableOpacity>
                 </View>
               </ScrollView>
             </View>
@@ -274,5 +342,8 @@ const styles = StyleSheet.create({
     color:'#333333',
     fontSize:16,
     marginLeft:width*0.03
+  },
+  light:{
+    flexDirection:'row'
   }
 });

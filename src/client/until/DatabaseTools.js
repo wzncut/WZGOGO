@@ -93,8 +93,8 @@ export default class DatabaseTools{
 
     return scene;
     }
-
-    static selectSecneDevice(tableKey, fn){
+    // static selectSecneDevice(tableKey, fn){
+    static selectSecneDevice(tableKey){
         let sde=new SceneDevice();
         db = sqLite.open();
         db.transaction((tx) => {
@@ -110,7 +110,6 @@ export default class DatabaseTools{
                    sde.setScenenum(u.scenenumber);
                    sde.setDevicemac(u.devicemac);
                    sde.setDevicestate(u.devicestate);
-                   fn(sde);
                 }
             });
         }, (err) => {//所有的 transaction都应该有错误的回调方法，在方法里面打印异常信息，不然你可能不会知道哪里出错了。

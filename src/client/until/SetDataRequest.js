@@ -45,8 +45,10 @@ export default class SetDataRequest{
     }
 		// 根据服务器端回复的不同响应报文，回复不同的请求报文
     static setDataResponse(response:DataResponse){
-        let request= new DataRequest();
+			// console.log('2222222222222222')
+    let request= new DataRequest();
 		let responseKeyword = response.getKeyword();
+		console.log(responseKeyword)
 		// if(responseKeyword.equalsIgnoreCase("SynOK") ){	
 		if(responseKeyword.toLocaleLowerCase()=="SynOK".toLocaleLowerCase()){
 			// 如果服务器数据将收到的客户端同步成功，则客户端清空日志表
@@ -62,6 +64,7 @@ export default class SetDataRequest{
 		// else if(responseKeyword.equalsIgnoreCase("SendData") ){
 		else if(responseKeyword.toLocaleLowerCase()=="SendData".toLocaleLowerCase() ){
 			// 更加客户端数据更新服务器端数据库
+				// console.log('2222222222222222')
 			ServiceTools.executeResponseData(response);
 			if(ServiceTools.getErrorMessage()==null){
 				// 如果更新成功，回复 synok

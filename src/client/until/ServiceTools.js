@@ -33,9 +33,13 @@ static setErrorMessage(mess:string){
 }
 
 static executeResponseData(response:DataResponse){
+    // console.log('2222222222222222')
     let responseData=response.getResData();
+    // console.log(responseData)
     let dataArray=new Array();
     dataArray=responseData.split("\n");
+    console.log(dataArray[0])
+    console.log(dataArray[1])
     try{
         let lineNumber =0;
         for(let line of dataArray){
@@ -243,16 +247,16 @@ static getLogOperate(log:HomeLog){
 			}
         }
         else if(logTableName.toLocaleLowerCase()=="scenedevice".toLocaleLowerCase()){
-            DatabaseTools.selectSecneDevice(logTableKey, function(sde) {
+            // DatabaseTools.selectSecneDevice(logTableKey, function(sde) {
                 
-            })
-			// let sde = DatabaseTools.selectSecneDevice(logTableKey);
-			// if(sde == null){
-			// 	mess =null;
-			// }
-			// else{
-			// 	mess = sde.toString();
-			// }
+            // })
+			let sde = DatabaseTools.selectSecneDevice(logTableKey);
+			if(sde == null){
+				mess =null;
+			}
+			else{
+				mess = sde.toString();
+			}
         }
         else{
 			console.log("[DatabaseTools.getOperate()] Erorr logTableName");
